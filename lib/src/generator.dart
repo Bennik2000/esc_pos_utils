@@ -774,22 +774,24 @@ class Generator {
           _getCharWidth(styles, maxCharsPerLine: maxCharsPerLine);
       double fromPos = _colIndToPosition(colInd);
 
-      // Align
-      if (colWidth != 12) {
-        // Update fromPos
-        final double toPos =
-            _colIndToPosition(colInd + colWidth) - spaceBetweenRows;
-        final double textLen = textBytes.length * charWidth;
+      // Commented out the if condition in order to fix a bug where text does
+      // not get centered
 
-        if (styles.align == PosAlign.right) {
-          fromPos = toPos - textLen;
-        } else if (styles.align == PosAlign.center) {
-          fromPos = fromPos + (toPos - fromPos) / 2 - textLen / 2;
-        }
-        if (fromPos < 0) {
-          fromPos = 0;
-        }
+      //if (colWidth != 12) {
+      // Update fromPos
+      final double toPos =
+          _colIndToPosition(colInd + colWidth) - spaceBetweenRows;
+      final double textLen = textBytes.length * charWidth;
+
+      if (styles.align == PosAlign.right) {
+        fromPos = toPos - textLen;
+      } else if (styles.align == PosAlign.center) {
+        fromPos = fromPos + (toPos - fromPos) / 2 - textLen / 2;
       }
+      if (fromPos < 0) {
+        fromPos = 0;
+      }
+      //}
 
       final hexStr = fromPos.round().toRadixString(16).padLeft(3, '0');
       final hexPair = HEX.decode(hexStr);
